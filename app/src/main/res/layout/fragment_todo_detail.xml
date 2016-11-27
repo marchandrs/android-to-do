@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.marchand.hellou.fragments.TodoDetailFragment"
+    android:padding="10dp">
+
+    <TextView
+        android:text="Titulo"
+        android:layout_width="wrap_content"
+        android:id="@+id/fragment_detail_txtTitle"
+        android:textStyle="normal|bold"
+        android:layout_height="wrap_content" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_add_white_24dp"
+        android:id="@+id/fragment_detail_fab_add"
+        app:fabSize="normal"
+        android:scaleType="fitCenter"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:text="Editado em: 28/01/1991"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_detail_txtUpdatedAt"
+        android:layout_below="@+id/fragment_detail_txtTitle"
+        android:layout_alignParentStart="true"
+        android:textAlignment="viewStart"
+        android:layout_width="180dp" />
+
+    <TextView
+        android:text="Criado em: 28/01/1991"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_detail_txtCreatedAt"
+        android:layout_alignBaseline="@+id/fragment_detail_txtUpdatedAt"
+        android:layout_alignBottom="@+id/fragment_detail_txtUpdatedAt"
+        android:layout_alignParentEnd="true"
+        android:textAlignment="textEnd"
+        android:layout_width="180dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_detail_recyclerView"
+        android:layout_below="@+id/fragment_detail_txtUpdatedAt"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="12dp" />
+
+</RelativeLayout>
