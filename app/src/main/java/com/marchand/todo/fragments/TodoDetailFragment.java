@@ -23,6 +23,8 @@ import com.marchand.todo.adapters.TodoItemAdapter;
 import com.marchand.todo.adapters.VerticalSpaceItemDecoration;
 import com.marchand.todo.models.Todo;
 
+import org.joda.time.LocalDate;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -102,7 +104,12 @@ public class TodoDetailFragment extends Fragment {
         recyclerView.setAdapter(new TodoItemAdapter(todo, inflater));
         recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
 
-        edtTitle.setText(todo.getTitle());
+        edtTitle.setHint("list title/description");
+
+        if (todo.getTitle() != null && todo.getTitle().length() > 0) {
+            edtTitle.setText(todo.getTitle());
+        }
+
         edtTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -120,6 +127,14 @@ public class TodoDetailFragment extends Fragment {
                 todo.save();
             }
         });
+
+        if (todo.getCreatedAt() != null) {
+            txtCreatedAt.setText("Created at: ".concat(LocalDate.fromDateFields(todo.getCreatedAt()).toString("d/M/y")));
+        }
+
+        if (todo.getUpdatedAt() != null) {
+            txtUpdatedAt.setText("Updated at: ".concat(LocalDate.fromDateFields(todo.getUpdatedAt()).toString("d/M/y")));
+        }
 
         fab = (FloatingActionButton) v.findViewById(R.id.fragment_detail_fab_add);
         fab.setOnClickListener(new View.OnClickListener() {

@@ -57,6 +57,7 @@ public class TodoDetailActivity extends AppCompatActivity implements ITodo, OnAd
     @Override
     public void addTodoItem(Todo todo) {
         TodoItem item = new TodoItem();
+        item.setTodo(todo);
         todo.getItems().add(item);
         todo.save();
     }

@@ -15,7 +15,7 @@ import java.util.List;
 public final class App extends SugarApp {
 
     public static String EXTRA_ID = "ID";
-    private List<Todo> TodoList = null;
+    private List<Todo> todoList = null;
 
     @Override
     public void onCreate(){
@@ -25,11 +25,11 @@ public final class App extends SugarApp {
     }
 
     public List<Todo> getTodoList() {
-        if (TodoList == null) {
-            TodoList = getTodoListForTest();
+        if (todoList == null) {
+            todoList = getTodoListForTest();
         }
 
-        return TodoList;
+        return todoList;
     }
 
     private List<Todo> getTodoListForTest() {
