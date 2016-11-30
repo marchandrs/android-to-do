@@ -1,22 +1,20 @@
-package com.marchand.hellou.adapters;
+package com.marchand.todo.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.marchand.hellou.R;
-import com.marchand.hellou.models.Todo;
-import com.marchand.hellou.models.TodoItem;
+import com.marchand.todo.R;
+import com.marchand.todo.models.Todo;
+import com.marchand.todo.models.TodoItem;
 
 /**
  * Created by alex on 20/11/16.
@@ -42,16 +40,22 @@ public class TodoItemAdapter extends Adapter {
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     TodoItem item = todo.getItems().get(getAdapterPosition());
                     item.setChecked(b);
+                    item.save();
                 }
             });
+
             btnDelete = (ImageButton) view.findViewById(R.id.btnDelete);
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    todo.getItems().remove(getAdapterPosition());
-                    notifyDataSetChanged();
+                    TodoItem item = todo.getItems().get(getAdapterPosition());
+                    if (item.delete()) {
+                        todo.getItems().remove(item);
+                        notifyDataSetChanged();
+                    }
                 }
             });
+
             edtText = (EditText) view.findViewById(R.id.edtText);
             edtText.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -68,6 +72,7 @@ public class TodoItemAdapter extends Adapter {
                 public void afterTextChanged(Editable editable) {
                     TodoItem item = todo.getItems().get(getAdapterPosition());
                     item.setText(editable.toString());
+                    item.save();
                 }
             });
         }

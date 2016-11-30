@@ -1,33 +1,32 @@
-package com.marchand.hellou.activities;
+package com.marchand.todo.activities;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
-import com.marchand.hellou.App;
-import com.marchand.hellou.ITodo;
-import com.marchand.hellou.OnAddTodoItemListener;
-import com.marchand.hellou.R;
-import com.marchand.hellou.fragments.TodoDetailFragment;
-import com.marchand.hellou.models.Todo;
-import com.marchand.hellou.models.TodoItem;
+import com.marchand.todo.App;
+import com.marchand.todo.ITodo;
+import com.marchand.todo.OnAddTodoItemListener;
+import com.marchand.todo.R;
+import com.marchand.todo.fragments.TodoDetailFragment;
+import com.marchand.todo.models.Todo;
+import com.marchand.todo.models.TodoItem;
+
+import java.util.Date;
 
 public class TodoDetailActivity extends AppCompatActivity implements ITodo, OnAddTodoItemListener {
 
     private Todo todo;
 
-    private Todo getTodo(int id) {
-        Todo todo = new Todo();
-
+    private Todo getTodo(Long id) {
         if (id == 0) {
-        // new Todolist?
-            todo.setId(7);
-            todo.setTitle("teste");
+            todo = new Todo();
+            todo.setCreatedAt(new Date());
+            todo.setUpdatedAt(new Date());
+            todo.save();
         } else {
-        // fetch existing todolist?
-            todo.setId(id);
+            todo = Todo.findById(Todo.class, id);
         }
 
         return todo;
@@ -41,7 +40,8 @@ public class TodoDetailActivity extends AppCompatActivity implements ITodo, OnAd
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        todo = getTodo(getIntent().getIntExtra(App.EXTRA_ID, 0));
+        todo = getTodo(getIntent().getLongExtra(App.EXTRA_ID, 0));
+        //Todo = Todo.findById(Todo.class, getIntent().getLongExtra(App.EXTRA_ID, 0));
 
         if (savedInstanceState == null) {
             TodoDetailFragment fragment = TodoDetailFragment.newInstance("", "");
@@ -50,7 +50,6 @@ public class TodoDetailActivity extends AppCompatActivity implements ITodo, OnAd
         }
     }
 
-    @Override
     public Todo getTodo() {
         return this.todo;
     }
@@ -58,8 +57,7 @@ public class TodoDetailActivity extends AppCompatActivity implements ITodo, OnAd
     @Override
     public void addTodoItem(Todo todo) {
         TodoItem item = new TodoItem();
-        item.setText("teste");
-        item.setChecked(true);
         todo.getItems().add(item);
+        todo.save();
     }
 }

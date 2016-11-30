@@ -1,4 +1,4 @@
-package com.marchand.hellou;
+package com.marchand.todo;
 
 import org.junit.Test;
 

@@ -3,15 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.marchand.hellou.fragments.TodoDetailFragment"
+    tools:context="com.marchand.Todo.fragments.TodoDetailFragment"
     android:padding="10dp">
 
-    <TextView
-        android:text="Titulo"
+    <EditText
+        android:text="[title]"
         android:layout_width="wrap_content"
-        android:id="@+id/fragment_detail_txtTitle"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_detail_edtTitle"
         android:textStyle="normal|bold"
-        android:layout_height="wrap_content" />
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -25,16 +29,16 @@
         android:layout_alignParentRight="true" />
 
     <TextView
-        android:text="Editado em: 28/01/1991"
+        android:text="[updated at]"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_detail_txtUpdatedAt"
-        android:layout_below="@+id/fragment_detail_txtTitle"
+        android:layout_below="@+id/fragment_detail_edtTitle"
         android:layout_alignParentStart="true"
         android:textAlignment="viewStart"
         android:layout_width="180dp" />
 
     <TextView
-        android:text="Criado em: 28/01/1991"
+        android:text="[created at]"
         android:layout_height="wrap_content"
         android:id="@+id/fragment_detail_txtCreatedAt"
         android:layout_alignBaseline="@+id/fragment_detail_txtUpdatedAt"

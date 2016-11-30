@@ -1,4 +1,4 @@
-package com.marchand.hellou.adapters;
+package com.marchand.todo.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.marchand.hellou.OnDetailTodoClickListener;
-import com.marchand.hellou.R;
-import com.marchand.hellou.models.Todo;
+import com.marchand.todo.OnDetailTodoClickListener;
+import com.marchand.todo.R;
+import com.marchand.todo.models.Todo;
+
+import org.joda.time.LocalDateTime;
 
 import java.util.List;
 
@@ -34,11 +36,11 @@ public class TodoListAdapter extends RecyclerView.Adapter {
             txtUpdatedAt = (TextView) v.findViewById(R.id.txtTodoUpdatedAt);
         }
 
-        void bind(final Todo todo, final OnDetailTodoClickListener listener){
+        void bind(final Todo Todo, final OnDetailTodoClickListener listener){
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onEditItemClickListener(todo);
+                    listener.onEditItemClickListener(Todo);
                 }
             });
         }
@@ -48,6 +50,11 @@ public class TodoListAdapter extends RecyclerView.Adapter {
         this.todoList = todoList;
         this.inflater = inflater;
         this.onDetailTodoClickListener = onDetailTodoClickListener;
+    }
+
+    public void setTodoList(List<Todo> list) {
+        this.todoList = list;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -61,17 +68,25 @@ public class TodoListAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ViewHolder vh = (ViewHolder) holder;
         Todo todo = todoList.get(position);
-        vh.txtTitle.setText(todo.getTitle());
+
+        if (todo.getTitle() != null && todo.getTitle().length() > 0) {
+            vh.txtTitle.setText(todo.getTitle());
+        }
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Editada em: ");
-        sb.append(todo.getCreatedAt().toString("d/M/y"));
-        vh.txtUpdatedAt.setText(sb.toString());
 
-        sb = new StringBuilder();
-        sb.append("Criada em: ");
-        sb.append(todo.getCreatedAt().toString("d/M/y"));
-        //vh.txtCreatedAt.setText(sb.toString());
+        if (todo.getUpdatedAt() != null) {
+            sb.append("Editada em: ");
+            sb.append(new LocalDateTime().fromDateFields(todo.getUpdatedAt()).toString("d/M/y"));
+            vh.txtUpdatedAt.setText(sb.toString());
+        }
+
+        if (todo.getCreatedAt() != null) {
+            sb = new StringBuilder();
+            sb.append("Criada em: ");
+            sb.append(new LocalDateTime().fromDateFields(todo.getCreatedAt()).toString("d/M/y"));
+            //vh.txtCreatedAt.setText(sb.toString());
+        }
 
         vh.bind(todoList.get(position), onDetailTodoClickListener);
     }

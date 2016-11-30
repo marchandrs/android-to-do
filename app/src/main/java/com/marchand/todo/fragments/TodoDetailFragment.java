@@ -1,4 +1,4 @@
-package com.marchand.hellou.fragments;
+package com.marchand.todo.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,18 +7,21 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.marchand.hellou.App;
-import com.marchand.hellou.ITodo;
-import com.marchand.hellou.OnAddTodoItemListener;
-import com.marchand.hellou.R;
-import com.marchand.hellou.adapters.TodoItemAdapter;
-import com.marchand.hellou.adapters.VerticalSpaceItemDecoration;
-import com.marchand.hellou.models.Todo;
+import com.marchand.todo.App;
+import com.marchand.todo.ITodo;
+import com.marchand.todo.OnAddTodoItemListener;
+import com.marchand.todo.R;
+import com.marchand.todo.adapters.TodoItemAdapter;
+import com.marchand.todo.adapters.VerticalSpaceItemDecoration;
+import com.marchand.todo.models.Todo;
 
 
 /**
@@ -46,7 +49,7 @@ public class TodoDetailFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
-    private TextView txtTitle;
+    private EditText edtTitle;
     private TextView txtUpdatedAt;
     private TextView txtCreatedAt;
 
@@ -89,7 +92,7 @@ public class TodoDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_todo_detail, container, false);
 
-        txtTitle = (TextView) v.findViewById(R.id.fragment_detail_txtTitle);
+        edtTitle = (EditText) v.findViewById(R.id.fragment_detail_edtTitle);
         txtUpdatedAt = (TextView) v.findViewById(R.id.fragment_detail_txtUpdatedAt);
         txtCreatedAt = (TextView) v.findViewById(R.id.fragment_detail_txtCreatedAt);
 
@@ -99,7 +102,24 @@ public class TodoDetailFragment extends Fragment {
         recyclerView.setAdapter(new TodoItemAdapter(todo, inflater));
         recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
 
-        txtTitle.setText(todo.getTitle());
+        edtTitle.setText(todo.getTitle());
+        edtTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                todo.setTitle(editable.toString());
+                todo.save();
+            }
+        });
 
         fab = (FloatingActionButton) v.findViewById(R.id.fragment_detail_fab_add);
         fab.setOnClickListener(new View.OnClickListener() {

@@ -1,4 +1,4 @@
-package com.marchand.hellou.fragments;
+package com.marchand.todo.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.marchand.hellou.App;
-import com.marchand.hellou.OnDetailTodoClickListener;
-import com.marchand.hellou.R;
-import com.marchand.hellou.models.Todo;
-import com.marchand.hellou.adapters.TodoListAdapter;
-import com.marchand.hellou.adapters.VerticalSpaceItemDecoration;
+import com.marchand.todo.App;
+import com.marchand.todo.OnDetailTodoClickListener;
+import com.marchand.todo.R;
+import com.marchand.todo.models.Todo;
+import com.marchand.todo.adapters.TodoListAdapter;
+import com.marchand.todo.adapters.VerticalSpaceItemDecoration;
+
+import java.util.List;
 
 
 /**
@@ -37,6 +39,9 @@ public class MainFragment extends Fragment implements OnDetailTodoClickListener 
     private String mParam2;
 
     private OnTodoDetail mListener;
+
+    private List<Todo> todoList;
+    private TodoListAdapter adapter;
 
     private static final int VERTICAL_ITEM_SPACE = 48;
     private RecyclerView recyclerView;
@@ -78,21 +83,32 @@ public class MainFragment extends Fragment implements OnDetailTodoClickListener 
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
+        todoList = Todo.listAll(Todo.class);
+
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
         App app = (App) getActivity().getApplication();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new TodoListAdapter(app.getTodoList(), inflater, this));
+        //recyclerView.setAdapter(new TodoListAdapter(app.getTodoList(), inflater, this));
+        adapter = new TodoListAdapter(todoList, inflater, this);
+        recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
 
         fab = (FloatingActionButton) v.findViewById(R.id.fragment_main_fab_add);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onTodoDetail(0);
+                mListener.onTodoDetail(Long.valueOf(0));
             }
         });
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        todoList = Todo.listAll(Todo.class);
+        adapter.setTodoList(todoList);
     }
 
     @Override
@@ -113,8 +129,8 @@ public class MainFragment extends Fragment implements OnDetailTodoClickListener 
     }
 
     @Override
-    public void onEditItemClickListener(Todo todo) {
-        mListener.onTodoDetail(todo.getId());
+    public void onEditItemClickListener(Todo Todo) {
+        mListener.onTodoDetail(Todo.getId());
     }
 
     /**
@@ -129,6 +145,6 @@ public class MainFragment extends Fragment implements OnDetailTodoClickListener 
      */
     public interface OnTodoDetail {
         // TODO: Update argument type and name
-        void onTodoDetail(int id);
+        void onTodoDetail(Long id);
     }
 }

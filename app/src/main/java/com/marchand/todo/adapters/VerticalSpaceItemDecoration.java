@@ -1,4 +1,4 @@
-package com.marchand.hellou.adapters;
+package com.marchand.todo.adapters;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
