@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.DividerItemDecoration
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import com.marchand.todo.OnDetailTodoClickListener;
 import com.marchand.todo.R;
 import com.marchand.todo.models.Todo;
 import com.marchand.todo.adapters.TodoListAdapter;
-import com.marchand.todo.adapters.VerticalSpaceItemDecoration;
 
 import java.util.List;
 
@@ -87,11 +87,15 @@ public class MainFragment extends Fragment implements OnDetailTodoClickListener 
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
         App app = (App) getActivity().getApplication();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
         //recyclerView.setAdapter(new TodoListAdapter(app.getTodoList(), inflater, this));
         adapter = new TodoListAdapter(todoList, inflater, this);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        //recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
 
         fab = (FloatingActionButton) v.findViewById(R.id.fragment_main_fab_add);
         fab.setOnClickListener(new View.OnClickListener() {

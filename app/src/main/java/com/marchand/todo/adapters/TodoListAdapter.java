@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.marchand.todo.OnDetailTodoClickListener;
@@ -28,12 +29,23 @@ public class TodoListAdapter extends RecyclerView.Adapter {
         TextView txtTitle;
         TextView txtCreatedAt;
         TextView txtUpdatedAt;
+        ImageButton btnDelete;
 
         ViewHolder(View v) {
             super(v);
             txtTitle = (TextView) v.findViewById(R.id.txtTodoTitle);
             //txtCreatedAt = (TextView) v.findViewById(R.id.txtTodoCreatedAt);
             txtUpdatedAt = (TextView) v.findViewById(R.id.txtTodoUpdatedAt);
+            btnDelete = (ImageButton) v.findViewById(R.id.btn_delete);
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Todo todo = todoList.get(getAdapterPosition());
+                    todo.delete();
+                    todoList.remove(getAdapterPosition());
+                    notifyDataSetChanged();
+                }
+            });
         }
 
         void bind(final Todo Todo, final OnDetailTodoClickListener listener){

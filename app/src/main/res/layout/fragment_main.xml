@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.marchand.Todo.fragments.MainFragment"
+    tools:context="com.marchand.todo.fragments.MainFragment"
     android:padding="10dp"
     android:id="@+id/fragment_container">
 
