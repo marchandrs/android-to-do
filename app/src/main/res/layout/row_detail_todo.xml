@@ -15,7 +15,8 @@
         android:ems="10"
         android:id="@+id/edtText"
         android:layout_weight="1"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="5dp"
+        android:textColor="@color/textColor"/>
 
     <ImageButton
         app:srcCompat="@android:drawable/ic_lock_idle_alarm"
